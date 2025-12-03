@@ -17,7 +17,7 @@ class ClienteController:
             return {'error': 'Datos incorrectos'}, 401
 
     @staticmethod
-    def guardar():
+    def registrar():
         data = request.json
         _id = data.get('id', 0)
         nombre = data.get('nombres')
@@ -34,12 +34,26 @@ class ClienteController:
         return response, 200
     
     @staticmethod
+    def generarCodigo():
+        data = request.json
+        correo = data.get('correo')
+        
+        response = ClienteService.generarCodigo(correo)
+        
+        if 'error' in response:
+            return response, 404
+        
+        response['mensaje'] = 'Codigo generado'
+        
+        return response, 200
+    
+    @staticmethod
     def validarCodigo():
         data = request.json
         _id = data.get('id')
         _codigo = data.get('codigo')
             
-        response = ClienteService.validar_codigo(_id, _codigo)
+        response = ClienteService.validarCodigo(_id, _codigo)
         
         if 'error' in response:
             return response, 404

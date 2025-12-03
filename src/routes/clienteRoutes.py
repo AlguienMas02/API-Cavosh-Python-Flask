@@ -1,29 +1,11 @@
-from flask import Blueprint, request, jsonify
-from src.models.cliente import db, Cliente, CodigoVerificacion
-from datetime import datetime, timedelta
-import random
+from flask import Blueprint
+from src.controllers.clienteController import ClienteController
 
 cliente_bp = Blueprint('cliente_bp', __name__)
 
-@cliente_bp.route('/clientes', methods=['GET'])
-def get_clientes():
-    clientes = Cliente.query.all()
-    return jsonify(clientes)
-
-
-@cliente_bp.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    correo = data.get('correo')
-    passwordd = data.get('passwordd')
-
-    #Igual a select * from Cliente where Correo = _correo and Passwordd = _passwordd;
-    usuario = Cliente.query.filter_by(Correo=correo, Passwordd=passwordd).first()
-
-    if usuario:
-        return {'message': 'Login exitoso', 'usuario': usuario.to_dict()}, 200
-    else:
-        return {'error': 'Credenciales incorrectas'}, 401
-
+cliente_bp.route('/login', methods=['POST'])(ClienteController.login)
+cliente_bp.route('/registrar', methods=['POST'])(ClienteController.registrar)
+cliente_bp.route('/generar_codigo', methods=['POST'])(ClienteController.generarCodigo)
+cliente_bp.route('/validar_codigo', methods=['POST'])(ClienteController.validarCodigo)
 
 
