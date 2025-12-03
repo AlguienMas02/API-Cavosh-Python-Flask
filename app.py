@@ -1,14 +1,19 @@
-from flask import Flask, request
-from flask_cors import CORS
-import src.config.db
-import mysql.connector
-
+from flask import Flask
+from src.config.db import Config
+from src.models.cliente import db
+from src.routes.clienteRoutes import cliente_bp
 
 app = Flask(__name__)
-CORS(app) 
 
+app.config.from_object(Config)
 
+db.init_app(app)
 
-# Correr la apliación en debug
+app.register_blueprint(cliente_bp, url_prefix='/api')
+
+with app.app_context:
+    db.create_all()
+    
 if __name__ == '__main__':
     app.run(debug=True)
+
