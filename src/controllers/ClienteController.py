@@ -1,26 +1,16 @@
 from flask import request, jsonify
-import mysql.connector
-from sqlalchemy import text
-from src.config.db import db;
+from src.services.clienteService import ClienteService
 
-def getCliente():
-    try:
+class ClienteController:
+    
+    @staticmethod
+    def login():
         data = request.json
         correo = data.get('correo')
-        password = data.get('password')
-        id = 0
+        passwordd = data.get('passwordd')
 
-        sql = text("CALL sp_getCliente(:id, :correo, :password)")
-        result = db.session.execute(sql, {'id': id, 'correo': correo, 'password': password})
-
-        if result:
-            cliente = dict(result)
-            return jsonify({'mensaje': 'Login exitoso', 'cliente': cliente}), 200
-        else:
-            return jsonify({'mensaje': 'Credenciales incorrectas'}), 401
-
-    except Exception as e:
-        return jsonify({'error': e}), 500
-
-
+        usuario = ClienteService.login(correo, passwordd)
+        
+        if usuario:
+            return {'mensaje': 'Login exitoso', 'usuario': usuario.to_dict()}, 200
 
