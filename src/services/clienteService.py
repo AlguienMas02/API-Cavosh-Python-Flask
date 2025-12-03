@@ -61,8 +61,9 @@ class ClienteService:
         
         ahora = datetime.now()
         diferencia = ingreso.FechaCaducidad - ahora
+        dif_int = diferencia.total_seconds()
         
-        if diferencia < 0:
+        if dif_int < 0:
             return {'estado': 'Vencido', 'mensaje': "Codigo caducado", 'valido': False}
         
         return {'estado': 'Valido', 'mensaje': "Codigo verificado", 'valido': True}

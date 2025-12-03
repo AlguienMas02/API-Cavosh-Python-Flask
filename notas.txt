@@ -1,11 +1,9 @@
-python -m venv venv (recomendado principalmente si se usan librerias respecificas o muy especialiadas)
 
-venv\Scripts\activate
 
 pip install flask
 pip install flask_cors
 pip install fastapi
-pip install flask_sqlalchemy
-pip install mysql-connector-python
+pip install flask_fastapi
+pip install mysql-connector-python pysql
 
 python -m pip install -U black (FORMATEADOR)

@@ -24,12 +24,11 @@ class ClienteController:
         correo = data.get('correo')
         passwordd = data.get('passwordd')
 
-        response = ClienteService.registrar_o_actualizar(_id, nombre, correo, passwordd)
+        response = ClienteService.registrar(_id, nombre, correo, passwordd)
         
         if 'error' in response:
             return jsonify(response), 404
             
-        # Agregamos mensaje de éxito para el frontend
         response['mensaje'] = 'Código generado'
         return response, 200
     
